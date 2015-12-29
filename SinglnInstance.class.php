@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * 单例模式： 通过提供对自身共享实例的访问， 单元素设计模式用于限制特定对象只能被创建一次
  * 单例设计模式最常用于构建数据库连接对象。 
@@ -22,20 +22,17 @@ class InventoryConnection {
 	}
 	
 	protected function __construct() {
-		$this->_handle = mysql_connect("localhost", "root", "root");
-		mysql_select_db("test", $this->_handle);
+		$this->_handle = $this->_retResType();
+		//mysql_select_db("test", $this->_handle);
 	}
-	
-	public function updateQuantity($band, $title, $number) {
-		$query  = " update cd set amount = (amount + ". intval($number) . ")";
-		$query .= " where band = '";
-		$query .= mysql_real_escape_string($band);
-		$query .= "'";
-		$query .= " and title = '";
-		$query .= mysql_real_escape_string($title);
-		$query .= "'";
-		
-		mysql_query($query, $this->_handle);
+
+	private function _retResType(){
+		$res = true;
+		return $res;
+	}
+
+	public function update($band, $title){
+		echo "update!";
 	}
 }
 
@@ -52,7 +49,7 @@ class CD {
 	
 	public function buy() {
 		$inventory = InventoryConnection::getInstance();
-		$inventory->updateQuantity($this->_band, $this->_title, -1);
+		$inventory->update($this->_band, $this->_title, -1);
 	}	
 }
 
